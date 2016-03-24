@@ -2,7 +2,7 @@
     /**
      * Main Router
      */
-    import([ 'Flight' ]);
+    import([ 'flight' ]);
     
     Flight::set( 'flight.log_errors', true );
         
