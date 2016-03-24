@@ -18,26 +18,11 @@ $(document).ready(function() {
 
 
     function init() {
-        $window.on('scroll', onScroll);
         $window.on('resize', resize);
         $popoverLink.on('click', openPopover);
         $document.on('click', closePopover);
-        $('a[href^="#"]').on('click', smoothScroll);
     }
 
-    function smoothScroll(e) {
-        e.preventDefault();
-        $(document).off("scroll");
-        var target = this.hash,
-            menu = target;
-        $target = $(target);
-        $('html, body').stop().animate({
-            'scrollTop': $target.offset().top-40
-            }, 0, 'swing', function () {
-            window.location.hash = target;
-            $(document).on("scroll", onScroll);
-        });
-    }
 
     function openPopover(e) {
         e.preventDefault();
@@ -53,11 +38,6 @@ $(document).ready(function() {
         }
     }
 
-    $("#button").click(function() {
-        $('html, body').animate({
-            scrollTop: $("#elementtoScrollToID").offset().top
-        }, 2000);
-    });
 
     function resize() {
         $body.removeClass('has-docked-nav');
@@ -65,20 +45,12 @@ $(document).ready(function() {
         onScroll();
     }
 
-    function onScroll() {
-        if(navOffsetTop < $window.scrollTop() && !$body.hasClass('has-docked-nav')) {
-            $body.addClass('has-docked-nav');
-        }
-        if(navOffsetTop > $window.scrollTop() && $body.hasClass('has-docked-nav')) {
-            $body.removeClass('has-docked-nav');
-        }
-    }
 
     function escapeHtml(string) {
         return String(string).replace(/[&<>"'\/]/g, function (s) {
             return entityMap[s];
         });
-    }    
+    }   
 
     init();
 });
