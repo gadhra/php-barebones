@@ -3,17 +3,17 @@
 
 {% block content %}
 <!-- twig: content  -->
-<div class="section main-top">
-    <div class="container">
-        <div class="row">
-            <div class="one-half column">
-                <h4 class="hero-heading">Main Page Left</h4>
-                <a class="button button-primary" href="#">I'm a button</a>
-            </div>
-            <div class="one-half column descriptor">
-                Toss an image over here
-            </div>
-        </div>
+<section class="header">
+    <h2 class="title">PHP BareBones</h2>
+    <a class="button button-primary" href="#">A Link Example</a>
+</section>
+
+<div class="navbar-spacer"></div>
+{% include 'navigation.html' %}
+<div class="example-section">
+    <div class="row">
+        <div class="four columns">Four Cols</div>
+        <div class="eight columns">Eight Cols</div>
     </div>
 </div>
 
