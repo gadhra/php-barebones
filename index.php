@@ -1,16 +1,8 @@
 <?php
-    
-    require_once( ABSPATH . 'lib/flight/Flight.php' );
-    
-    function include_file( $fname, $params = [] ) {
-        $path = sprintf( '%s%s/%s.php', ABSPATH, 'presenter', $fname );
-        if( file_exists( $path ) ) {
-            extract( $params );
-            include_once( $path );
-            return true;
-        }
-        return false;
-    }    
+    /**
+     * Main Router
+     */
+    import([ 'Router/Flight.php' ]);
     
     Flight::set( 'flight.log_errors', true );
         

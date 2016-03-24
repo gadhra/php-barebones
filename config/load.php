@@ -45,3 +45,39 @@
             print( "Invalid environment" );
             exit;
     }
+
+    /**
+     * Global Function Definitions
+     */
+        /**
+     * include file
+     * @param  string $fname  name of the file to route to
+     * @param  array  $params any params you want to pass to the template
+     * @return bool         include the file, return true if it works, false otherwise
+     */
+    function include_file( $fname, $params = [] ) {
+        $path = sprintf( '%s%s/%s.php', ABSPATH, 'presenter', $fname );
+        if( file_exists( $path ) ) {
+            extract( $params );
+            include_once( $path );
+            return true;
+        }
+        return false;
+    }
+    
+
+    function import( $libs = [] ) {
+        if( empty( $libs ) ) {
+            return;
+        }
+
+        foreach( $libs as $path ) {
+            $path = sprintf( '%s%s/%s.php', ABSPATH, 'libs', $path );
+            if( file_exists( $path ) ) {
+                require_once( $path );
+                return true;
+            }
+
+            return false;
+        }
+    }
