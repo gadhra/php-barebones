@@ -1,0 +1,12 @@
+[submodule "lib/flight"]
+	path = lib/flight
+	url = https://github.com/mikecao/flight.git
+[submodule "lib/smarty"]
+	path = lib/smarty
+	url = https://github.com/smarty-php/smarty
+[submodule "lib/Template"]
+	path = lib/Template
+	url = https://github.com/smarty-php/smarty
+[submodule "lib/Router"]
+	path = lib/Router
+	url = https://github.com/mikecao/flight.git
