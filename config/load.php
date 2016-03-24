@@ -64,7 +64,7 @@
         }
         return false;
     }
-    
+
 
     function import( $libs = [] ) {
         if( empty( $libs ) ) {
@@ -78,6 +78,6 @@
                 return true;
             }
 
-            return false;
+            die( 'Unable to load lib: ' . $path );
         }
     }
