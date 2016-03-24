@@ -72,7 +72,7 @@
         }
 
         foreach( $libs as $path ) {
-            $path = sprintf( '%s%s/%s.php', ABSPATH, 'libs', $path );
+            $path = sprintf( '%s%s/%s.php', ABSPATH, 'lib', $path );
             if( file_exists( $path ) ) {
                 require_once( $path );
                 return true;
