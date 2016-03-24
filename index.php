@@ -21,22 +21,31 @@
         }
     });   
 
-    Flight::route('DELETE /', function(){
-        return true;
-    });
-
-    Flight::route('PUT /', function(){
-        return true;
-    });
-
-    Flight::route('POST /', function(){
-        return true;
-    });
-
-    Flight::route('GET /', function(){
-        return true;
+    Flight::route( 'GET /@name(/@id)', function( $name, $id ) {
+        if(! presenter( $name ) ) {
+            return true;
+        }
     });
     
+    Flight::route( 'POST /@name', function( $name ) {
+        if(! presenter( $name ) ) {
+            return true;
+        }
+    });
+
+    Flight::route( 'PUT /@name/@id', function( $name, $id ) {
+        if(! presenter( $name ) ) { 
+            return true;
+        }
+    });
+    
+    Flight::route( 'DELETE /@name/@id', function( $name, $id ) {
+        if(! presenter( $name ) ) {
+            return true;
+        }
+    });
+
+
     Flight::route( '*', function() {
         presenter( 'main' );
     });
