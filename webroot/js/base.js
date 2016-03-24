@@ -14,7 +14,7 @@ $(document).ready(function() {
             '"': '&quot;',
             "'": '&#39;',
             "/": '&#x2F;'
-        }
+        };
 
 
     function init() {
