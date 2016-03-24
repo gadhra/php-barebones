@@ -92,15 +92,16 @@
             if( is_dir( $path ) ) {
                 $files = glob( $path . '/*', GLOB_NOSORT );
                 foreach( $files as $file ) {
-                    if( strtolower( $file ) === 'autoload.php' ) {
+                    $fname = basename( $file );
+                    if( strtolower( $fname ) === 'autoload.php' ) {
                         require_once( $file );
                         return $file;
                     }
-                    if( strtolower( $file ) === 'autoloader.php' ) {
+                    if( strtolower( $fname ) === 'autoloader.php' ) {
                         require_once( $file );
                         return $file;
                     }
-                    if( strtolower( $file ) === sprintf( "%s.php", $lib ) ) {
+                    if( strtolower( $fname ) === sprintf( "%s.php", strtolower( $lib ) ) ) {
                         require_once( $file );
                         return $file;
                     }
