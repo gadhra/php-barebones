@@ -7,7 +7,7 @@
     */
 
     $messages = [ 'success'=>[], 'error'=> [] ];
-    import( [ 'Template' ] );
+    import( [ 'Template/libs/Autoloader' ] );
     $view = 'main.html';
 
 
