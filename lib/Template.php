@@ -1,6 +1,6 @@
 <?php
 
-    import( [ 'Template/libs/Autoloader' ] );
+    import( [ 'Twig' ] );
 
 
     class Template {

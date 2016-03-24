@@ -2,7 +2,7 @@
     /**
      * Main Router
      */
-    import([ 'Router/Flight/flight/autoload' ]);
+    import([ 'Flight' ]);
     
     Flight::set( 'flight.log_errors', true );
         
@@ -38,7 +38,7 @@
     });
     
     Flight::route( '*', function() {
-        include_file( 'main' );
+        presenter( 'main' );
     });
     
     Flight::start();

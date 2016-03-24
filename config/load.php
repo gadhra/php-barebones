@@ -49,13 +49,14 @@
     /**
      * Global Function Definitions
      */
-        /**
-     * include file
+    
+    /**
+     * include presenter file
      * @param  string $fname  name of the file to route to
      * @param  array  $params any params you want to pass to the template
      * @return bool         include the file, return true if it works, false otherwise
      */
-    function include_file( $fname, $params = [] ) {
+    function presenter( $fname, $params = [] ) {
         $path = sprintf( '%s%s/%s.php', ABSPATH, 'presenter', $fname );
         if( file_exists( $path ) ) {
             extract( $params );
@@ -71,13 +72,41 @@
             return;
         }
 
-        foreach( $libs as $path ) {
-            $path = sprintf( '%s%s/%s.php', ABSPATH, 'lib', $path );
+        foreach( $libs as $lib ) {
+            $path = sprintf( '%s%s/%s.php', ABSPATH, 'lib', $lib );
+            //check local first
             if( file_exists( $path ) ) {
                 require_once( $path );
-                return true;
+                return $path;
+            }
+            
+            // check for the vendor file
+            $path = sprintf( '%s%s/vendor/%s.php', ABSPATH, 'lib', $lib );
+            if( file_exists( $path ) ) {
+                require_once( $path );
+                return $path;
             }
 
-            die( 'Unable to load lib: ' . $path );
+            //check for a directory, and check for an autoloader first
+            $path = sprintf( '%s%s/vendor/%s', ABSPATH, 'lib', $lib );
+            if( is_dir( $path ) ) {
+                $files = glob( $path . '/*', GLOB_NOSORT );
+                foreach( $files as $file ) {
+                    if( strtolower( $file ) === 'autoload.php' ) {
+                        require_once( $file );
+                        return $file;
+                    }
+                    if( strtolower( $file ) === 'autoloader.php' ) {
+                        require_once( $file );
+                        return $file;
+                    }
+                    if( strtolower( $file ) === sprintf( "%s.php", $lib ) ) {
+                        require_once( $file );
+                        return $file;
+                    }
+                }
+            }
+
+            die( 'Unable to load lib: ' . $lib );
         }
     }
