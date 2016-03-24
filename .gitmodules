@@ -1,6 +1,0 @@
-[submodule "lib/Template"]
-	path = lib/Template
-	url = https://github.com/smarty-php/smarty
-[submodule "lib/Router"]
-	path = lib/Router
-	url = https://github.com/mikecao/flight.git
