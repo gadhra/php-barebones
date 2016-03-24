@@ -18,6 +18,10 @@
     <link rel="stylesheet" href="css/skeleton.2.0.4.min.css" />
     <link rel="stylesheet" href="css/style.css" />
 
+    <!-- JS -->
+    <script src="//code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
+    <script src="//google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -29,11 +33,5 @@
   <body>
     {% include 'navigation.html' %}
     {% block content %}{% endblock %}
-
-
-    <!-- jQuery -->
-    {% block footer_js %}
-    <script src="//code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
-    {% endblock %}
   </body>
 </html>  
