@@ -1,5 +1,5 @@
 <?php
-    require_once( ABSPATH . 'lib/MyExceptions.php' );
+    require_once( ABSPATH . 'lib/Exceptions.php' );
     class MyDatabaseException extends CustomException {}
     
     class MySQL {
