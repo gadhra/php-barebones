@@ -72,6 +72,16 @@
             return;
         }
 
+        /**
+          * little bit of sugar in case you pass in a string
+          */
+        if( is_string( $libs ) ) {
+            $tmp = $libs;
+            $libs = [];
+            $libs[] = $tmp;
+            unset( $tmp );
+        }
+
         foreach( $libs as $lib ) {
             $path = sprintf( '%s%s/%s.php', ABSPATH, 'lib', $lib );
             //check local first
