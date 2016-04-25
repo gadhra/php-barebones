@@ -50,7 +50,8 @@
                 throw new MyDatabaseException( $e->getMessage(), ( int ) $e->getCode() );
             }
             
-            return $stmt->execute( $values );         
+            $stmt->execute( $values );
+            return $stmt;     
         }
         
         
