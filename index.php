@@ -8,7 +8,7 @@
         
     Flight::map('error', function( Exception $ex ){
         // Handle error
-        if( ENVIRONMENT == 'DEV' ) {
+        if( ENV == 'development' ) {
             if(! empty( $ex->xdebug_message ) ) {
                 echo '<pre>' . $ex->xdebug_message . '</pre>';
             } else {
@@ -22,24 +22,28 @@
     });   
 
     Flight::route( 'GET /@name(/@id)', function( $name, $id ) {
+        Flight::set( 'method', 'GET' );
         if(! presenter( $name ) ) {
             return true;
         }
     });
     
     Flight::route( 'POST /@name', function( $name ) {
+        Flight::set( 'method', 'POST' );
         if(! presenter( $name ) ) {
             return true;
         }
     });
 
     Flight::route( 'PUT /@name/@id', function( $name, $id ) {
+        Flight::set( 'method', 'PUT' );
         if(! presenter( $name ) ) { 
             return true;
         }
     });
     
     Flight::route( 'DELETE /@name/@id', function( $name, $id ) {
+        Flight::set( 'method', 'DELETE' );
         if(! presenter( $name ) ) {
             return true;
         }
