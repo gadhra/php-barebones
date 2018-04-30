@@ -40,6 +40,7 @@
     }
 
 
+    //@todo let all of this get handled by composer
     function import( $libs = [] ) {
         if( empty( $libs ) ) {
             return;
@@ -57,37 +58,10 @@
             //check local first
             if( file_exists( $path ) ) {
                 require_once( $path );
-                return $path;
             }
-            
-            // check for the vendor file
-            $path = sprintf( '%s%s/vendor/%s.php', ABSPATH, 'lib', $lib );
-            if( file_exists( $path ) ) {
-                require_once( $path );
-                return $path;
-            }
-
-            //check for a directory, and check for an autoloader first
-            $path = sprintf( '%s%s/vendor/%s', ABSPATH, 'lib', $lib );
-            if( is_dir( $path ) ) {
-                $files = glob( $path . '/*', GLOB_NOSORT );
-                foreach( $files as $file ) {
-                    $fname = basename( $file );
-                    if( strtolower( $fname ) === 'autoload.php' ) {
-                        require_once( $file );
-                        return $file;
-                    }
-                    if( strtolower( $fname ) === 'autoloader.php' ) {
-                        require_once( $file );
-                        return $file;
-                    }
-                    if( strtolower( $fname ) === sprintf( "%s.php", strtolower( $lib ) ) ) {
-                        require_once( $file );
-                        return $file;
-                    }
-                }
-            }
-
-            die( 'Unable to load lib: ' . $lib );
         }
+
+        // load up the composer autoloader
+        require_once( sprintf( '%s%s/vendor/autoload.php', ABSPATH, 'lib' ) );
+        return;
     }
