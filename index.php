@@ -6,7 +6,7 @@
     
     Flight::set( 'flight.log_errors', true );
         
-    Flight::map('error', function( Exception $ex ){
+    Flight::map('error', function( Throwable $ex ){
         // Handle error
         if( ENV == 'development' ) {
             if(! empty( $ex->xdebug_message ) ) {
@@ -19,7 +19,15 @@
         } else {
             syslog( LOG_NOTICE, $ex->getTraceAsString() );
         }
-    });   
+    });
+
+    Flight::route( 'GET /phpinfo', function() {
+        if( ENV != 'development' ) {
+            return true;
+        }
+        phpinfo();
+    });
+
 
     Flight::route( 'GET /@name(/@id)', function( $name, $id ) {
         Flight::set( 'method', 'GET' );
