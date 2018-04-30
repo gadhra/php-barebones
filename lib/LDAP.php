@@ -144,5 +144,43 @@ class LDAP {
         return $user;
     }
 }
-?>
 
+/**
+ * Function I used to sync a password from MySQL down to a 
+ * an LDAP instance.  Takes a user object (see User.php)
+ */
+function sync( string $uid, object $user ) {
+    $needCreate = false;
+    $ldap = new LDAP;
+
+    // find them in ldap
+    try {
+        $search = sprintf( "(uid=%s)", $uid);
+        $ldap->search( $search );
+    } catch( LdapException $e ) {
+        if( $e->getCode() == 404 ) {
+            $needCreate = true;
+        } else {
+            throw $e;
+        }
+    }
+
+     // break out for a second and handle account creation
+     // and rerun if necessary
+     if( $needCreate ) {
+         try {
+             $ldap->create( $user );
+             sync( $uid );
+         } catch( LdapException $e ) {
+             throw $e;
+         }
+     }
+
+    // sync the password
+    try {
+        $ldap->reset_pw( $user );
+    } catch( LdapException $e ) {
+        throw $e;
+    }
+}
+?>
