@@ -121,7 +121,12 @@
         
         private function connect() {
             if(! is_resource( $this->conn ) ) {
-                $connStr = sprintf( 'mysql:host=%s;dbname=%s', DB_HOST, DB_NAME );
+		$host = explode( ':', DB_HOST );
+                $connStr = sprintf( 'mysql:host=%s;dbname=%s', $host[0], DB_NAME );
+		if(! empty( $host[1] ) ) {
+			$connStr .= sprintf( ';port=%s', $host[1] );
+		}
+		
                 try {
                     $this->conn = new PDO( $connStr, DB_USER, DB_PASS,
                         [
