@@ -10,9 +10,9 @@
         
         
         
-        public function run( $query, $values = [] ) {            
+        public function run( $query, $values = [], $debug = false ) {            
             try {
-                return $this->execute( $query, $values );
+                return $this->execute( $query, $values, $debug );
             } catch( MyDatabaseException $e ) {
                 return $e->handleError();
             }
@@ -23,28 +23,28 @@
           */
         
         // fetch the contents of a single field
-        public function fetchOne( $query, $values = [] ) {
-            return $this->fetch( $query, $values, 'single' );
+        public function fetchOne( $query, $values = [], $debug = false ) {
+            return $this->fetch( $query, $values, 'single', $debug );
         }
         
         //fetch one row
-        public function fetchRow( $query, $values = [] ) {
-            return $this->fetch( $query, $values, 'row' );
+        public function fetchRow( $query, $values = [], $debug=false ) {
+            return $this->fetch( $query, $values, 'row', $debug );
             
         }
         
         //fetch all records, optionally index them by a best 
         // guess at the primary key
-        public function fetchAll( $query, $values = [], $index = false ) {
+        public function fetchAll( $query, $values = [], $index = false, $debug=false ) {
             if(! $index ) {
-                return $this->fetch( $query, $values );
+                return $this->fetch( $query, $values, $debug );
             }
             $id = $this->getIndex( $query );
             if( empty( $id ) ) {
                 $id = 'id';
             }
             
-            $data = $this->fetch( $query, $values );
+            $data = $this->fetch( $query, $values, $debug );
             $response = [];
             foreach( $data as $array ) {
                 $response[$array[$id]] = $array;   
@@ -52,6 +52,24 @@
             
             return $response;
         }
+        
+        /**
+         * Sometimes I just want to look at the raw query being passed to
+         * MySQL
+         * @param $query - query to look at
+         * @param $values - values I'm substituting
+         */
+        public function debug( $query, $values ) {
+            foreach ($values as $k => $v) {
+                if( is_string( $v ) ) {
+                    $v = "'$v'";
+                }
+                $query = preg_replace('/\?/', $v, $query, 1 );
+            }
+
+            return $query;
+        }
+        
         
         
         private function getIndex( $query ) {
@@ -69,9 +87,9 @@
             return $this->fetch( $query, [ DB_NAME, $matches[1], 'PRI' ], 'single' );
         }
         
-        private function fetch( $query, $values = [], $type = 'all' ) {
+        private function fetch( $query, $values = [], $type = 'all', $debug = false ) {
             try {
-                $stmt = $this->execute( $query, $values );
+                $stmt = $this->execute( $query, $values, $debug );
             } catch( MyDatabaseException $e ) {
                 return $e->handleError();
             }
@@ -106,7 +124,11 @@
             }
         }
         
-        private function execute( $query, $values ) {
+        private function execute( $query, $values, $debug = false ) {
+            if( $debug === true ) {
+                echo $this->debug( $query, $values );
+            }
+        
             try {
                 $stmt = $this->prep( $query );
             } catch ( MyDatabaseException $e ) {
@@ -121,14 +143,14 @@
         
         private function connect() {
             if(! is_resource( $this->conn ) ) {
-		$host = explode( ':', DB_HOST );
+                $host = explode( ':', DB_HOST );
                 $connStr = sprintf( 'mysql:host=%s;dbname=%s', $host[0], DB_NAME );
-		if(! empty( $host[1] ) ) {
-			$connStr .= sprintf( ';port=%s', $host[1] );
-		}
+                if(! empty( $host[1] ) ) {
+                    $connStr .= sprintf( ';port=%s', $host[1] );
+                }
 		
-                try {
-                    $this->conn = new PDO( $connStr, DB_USER, DB_PASS,
+		        try {
+		            $this->conn = new PDO( $connStr, DB_USER, DB_PASS,
                         [
                             PDO::ATTR_EMULATE_PREPARES => false,
                             PDO::ATTR_PERSISTENT => false
