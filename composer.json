@@ -23,6 +23,6 @@
             "guzzlehttp/guzzle":"6.2.2",
             "abraham/twitteroauth":"0.7.0",
             "wildbit/postmark-php":"2.2.0",
-            "google/apiclient":"2.0.3",
+            "google/apiclient":"2.0.3"
         }
     }
