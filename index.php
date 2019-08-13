@@ -104,6 +104,9 @@
     Flight::route( '*', function() {
         presenter( 'main' );
     });
+
+
+    Flight::start();
     
 
 
